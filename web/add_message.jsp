@@ -22,7 +22,7 @@
                 Message End Date: <input type="text" id="end_date" name="end_date" readonly>
                     <img src="images/date_time_picker/cal.gif" onclick="javascript:NewCssCal('end_date','yyyyMMdd','dropdown',true,24,true)" style="cursor: pointer"/><br>
                 <br><br>
-                <input type="submit" value="Add the message">
+                <input type="submit" class="button" value="Add the message">
             </form>
         </div>
     </body>

@@ -11,11 +11,10 @@
     
     <body>
         <div>
-            <button id="show_messages_page" type="button" class="button" onClick="window.location = 'show_messages.jsp'">Show all messages</button>
+            <button id="manage_messages_page" type="button" class="button" onClick="window.location = 'manage_messages.jsp'">Manage messages</button>
             <br><br>
             <button id="add_message_page" type="button" class="button" onClick="window.location = 'add_message.jsp'">Add a Message</button>
             <br><br>
-            
         </div>
     </body>
 </html>

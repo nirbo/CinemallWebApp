@@ -11,6 +11,7 @@
     </head>
     
     <body>
+        Working, please wait...
         <sql:setDataSource var="db" driver="com.mysql.jdbc.Driver"
             url="jdbc:mysql://localhost/cinemall"
             user="root"  
@@ -20,10 +21,10 @@
             <sql:update dataSource="${db}" var="toDelete">
                 DELETE FROM splash_messages WHERE id='${postParams.value}'
             </sql:update>
-                The message at id: ${postParams.value} has been deleted!
-                <br><br><br>
-                <a href="show_messages.jsp">Click here to return to the messages list</a>
         </c:forEach>
         
+        <script type="text/javascript">
+            window.location = 'manage_messages.jsp';
+        </script>
     </body>
 </html>

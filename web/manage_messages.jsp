@@ -21,6 +21,17 @@
                 form.submit();
             }
         </script>
+        
+        <script type="text/javascript">
+            function changeActiveState(row_id, state) {
+                var form=document.messages;
+                var id=row_id;
+                var newState=state;
+                form.method="post";
+                form.action='active_state_change.jsp?id='+id+'&newState='+newState;
+                form.submit();
+            }
+        </script>
     </head>
     
     <body>
@@ -30,10 +41,10 @@
             password=""/>
         
         <sql:query dataSource="${db}" var="result">
-            SELECT * from splash_messages;
+            SELECT * FROM splash_messages;
         </sql:query>
             
-            <a href="index.jsp"><center>Click here to return to the main page</center></a>
+    <center><button id="manage_messages_page" type="button" class="button" onClick="window.location = 'index.jsp'">Return to Homepage</center></button>
             <br><br><br>
             <form method="post" name="messages">
                 <table border="1" width="100%">
@@ -56,8 +67,10 @@
                             <td><center><c:out value="${row.start_date}"/></center></td>
                             <td><center><c:out value="${row.end_date}"/></center></td>
                             <td><center>
-                                <img src="images/edit-icon.png" id="${row.id}" title="Edit Message" onClick=""> &nbsp;&nbsp;&nbsp;
-                                <img src="images/delete-icon.png" id="${row.id}" title="Delete Message" onClick="deleteFromDB(this.id)">
+                                <img src="images/activate-icon.png" id="${row.id}" title="Activate Message" style="cursor: pointer;" onClick="changeActiveState(this.id, 'YES')"> &nbsp;&nbsp;&nbsp;
+                                <img src="images/deactivate-icon.png" id="${row.id}" title="Deactivate Message" style="cursor: pointer;" onClick="changeActiveState(this.id, 'NO')"> &nbsp;&nbsp;&nbsp;
+                                <img src="images/edit-icon.png" id="${row.id}" title="Edit Message" style="cursor: pointer;" onClick=""> &nbsp;&nbsp;&nbsp;
+                                <img src="images/delete-icon.png" id="${row.id}" title="Delete Message" style="cursor: pointer;" onClick="deleteFromDB(this.id)">
                             </center></td>
                         </tr>
                     </c:forEach>

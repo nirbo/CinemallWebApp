@@ -26,11 +26,11 @@
         </sql:update>
             The following message has been added to the splash messages database:
             <br><br>
-            Title: ${param.title}
-            Content: ${param.content}
-            Start Date: ${param.start_date}
+            Title: ${param.title}<br>
+            Content: ${param.content}<br>
+            Start Date: ${param.start_date}<br>
             End Date: ${param.end_date}
             <br><br><br>
-            <a href="show_messages.jsp">Click here to return to the messages list</a>
+            <a href="manage_messages.jsp">Click here to return to the messages list</a>
     </body>
 </html>
