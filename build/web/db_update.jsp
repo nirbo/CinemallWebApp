@@ -7,22 +7,26 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Change Message Active State</title>
+        <title>DB Message Update</title>
     </head>
     
     <body>
-        Working, please wait...
         <sql:setDataSource var="db" driver="com.mysql.jdbc.Driver"
             url="jdbc:mysql://localhost/cinemall"
             user="root"  
             password=""/>
         
-        <sql:update dataSource="${db}" var="inputParams">
-            <c:set var="row_id" value="${param.id}"/>
-            <c:set var="newState" value="${param.newState}"/>
-            UPDATE splash_messages SET active='${newState}' WHERE id='${row_id}';
+        <c:set var="row_id" value="${param.id}"/>
+        <c:set var="title" value="${param.title}"/>
+        <c:set var="content" value="${param.content}"/>
+        <c:set var="start_date" value="${param.start_date}"/>
+        <c:set var="end_date" value="${param.end_date}"/>
+        <c:set var="active" value="${param.active}"/>
+        
+        <sql:update dataSource="${db}" var="messageUpdate">
+            UPDATE splash_messages SET title='${title}', content='${content}', start_date='${start_date}', end_date='${end_date}', active='${active}' WHERE id='${row_id}';
         </sql:update>
-
+            
         <script type="text/javascript">
             window.location = 'manage_messages.jsp';
         </script>

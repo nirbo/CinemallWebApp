@@ -32,6 +32,16 @@
                 form.submit();
             }
         </script>
+        
+        <script type="text/javascript">
+            function editMessage(row_id) {
+                var form=document.messages;
+                var id=row_id;
+                form.method="post";
+                form.action='edit_message.jsp?id='+id;
+                form.submit();
+            }
+        </script>
     </head>
     
     <body>
@@ -69,7 +79,7 @@
                             <td><center>
                                 <img src="images/activate-icon.png" id="${row.id}" title="Activate Message" style="cursor: pointer;" onClick="changeActiveState(this.id, 'YES')"> &nbsp;&nbsp;&nbsp;
                                 <img src="images/deactivate-icon.png" id="${row.id}" title="Deactivate Message" style="cursor: pointer;" onClick="changeActiveState(this.id, 'NO')"> &nbsp;&nbsp;&nbsp;
-                                <img src="images/edit-icon.png" id="${row.id}" title="Edit Message" style="cursor: pointer;" onClick=""> &nbsp;&nbsp;&nbsp;
+                                <img src="images/edit-icon.png" id="${row.id}" title="Edit Message" style="cursor: pointer;" onClick="editMessage(this.id)"> &nbsp;&nbsp;&nbsp;
                                 <img src="images/delete-icon.png" id="${row.id}" title="Delete Message" style="cursor: pointer;" onClick="deleteFromDB(this.id)">
                             </center></td>
                         </tr>

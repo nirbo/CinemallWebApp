@@ -26,6 +26,5 @@
         <script type="text/javascript">
             window.location = 'manage_messages.jsp';
         </script>
-            
     </body>
 </html>
