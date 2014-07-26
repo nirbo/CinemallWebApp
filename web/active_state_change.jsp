@@ -5,6 +5,14 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <% request.setCharacterEncoding("UTF-8"); %>
 <% response.setCharacterEncoding("UTF-8"); %>
+
+<c:set var="row_id" value="${param.id}"/>
+<c:set var="newState" value="${param.newState}"/>
+
+<sql:update dataSource="jdbc/cinemall" var="inputParams">
+    UPDATE splash_messages SET active='${newState}' WHERE id='${row_id}';
+</sql:update>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,17 +22,6 @@
     
     <body>
         Working, please wait...
-        <sql:setDataSource var="db" driver="com.mysql.jdbc.Driver"
-            url="jdbc:mysql://localhost/cinemall?useUnicode=true&characterEncoding=UTF-8"
-            user="root"  
-            password=""/>
-        
-        <sql:update dataSource="${db}" var="inputParams">
-            <c:set var="row_id" value="${param.id}"/>
-            <c:set var="newState" value="${param.newState}"/>
-            UPDATE splash_messages SET active='${newState}' WHERE id='${row_id}';
-        </sql:update>
-
         <script type="text/javascript">
             window.location = 'manage_messages.jsp';
         </script>

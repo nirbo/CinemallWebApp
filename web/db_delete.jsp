@@ -5,6 +5,13 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <% request.setCharacterEncoding("UTF-8"); %>
 <% response.setCharacterEncoding("UTF-8"); %>
+
+<c:set var="row_id" value="${param.id}"/>
+
+<sql:update dataSource="jdbc/cinemall" var="toDelete">
+    DELETE FROM splash_messages WHERE id='${row_id}'
+</sql:update>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,17 +21,6 @@
     
     <body>
         Working, please wait...
-        <sql:setDataSource var="db" driver="com.mysql.jdbc.Driver"
-            url="jdbc:mysql://localhost/cinemall?useUnicode=true&characterEncoding=UTF-8"
-            user="root"  
-            password=""/>
-        
-        <c:forEach var="postParams" items="${param}">
-            <sql:update dataSource="${db}" var="toDelete">
-                DELETE FROM splash_messages WHERE id='${postParams.value}'
-            </sql:update>
-        </c:forEach>
-        
         <script type="text/javascript">
             window.location = 'manage_messages.jsp';
         </script>
