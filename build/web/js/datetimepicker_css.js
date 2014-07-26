@@ -42,7 +42,7 @@ var SpanBorderColor = "#000000";//span border color
 var SpanBgColor = "#FFFFFF"; //span background color
 var MonthYearColor = "#cc0033"; //Font Color of Month and Year in Calendar header.
 var WeekHeadColor = "#18861B"; //var WeekHeadColor="#18861B";//Background Color in Week header.
-var SundayColor = "#C0F64F"; //var SundayColor="#C0F64F";//Background color of Sunday.
+var SundayColor = "#FFEDA6"; //var SundayColor="#C0F64F";//Background color of Sunday.
 var SaturdayColor = "#C0F64F"; //Background color of Saturday.
 var WeekDayColor = "#FFEDA6"; //Background color of weekdays.
 var FontColor = "blue"; //color of font in Calendar day cell.
@@ -54,13 +54,13 @@ var HoverColor = "#E0FF38"; //color when mouse move over.
 var DisableColor = "#999966"; //color of disabled cell.
 var CalBgColor = "#ffffff"; //Background color of Calendar window.
 
-var WeekChar = 2;//number of character for week day. if 2 then Mo,Tu,We. if 3 then Mon,Tue,Wed.
+var WeekChar = 3;//number of character for week day. if 2 then Mo,Tu,We. if 3 then Mon,Tue,Wed.
 var DateSeparator = "-";//Date Separator, you can change it to "-" if you want.
 var ShowLongMonth = true;//Show long month name in Calendar header. example: "January".
 var ShowMonthYear = true;//Show Month and Year in Calendar header.
 var ThemeBg = "";//Background image of Calendar window.
 var PrecedeZero = true;//Preceding zero [true|false]
-var MondayFirstDay = true;//true:Use Monday as first day; false:Sunday as first day. [true|false]  //added in version 1.7
+var MondayFirstDay = false;//true:Use Monday as first day; false:Sunday as first day. [true|false]  //added in version 1.7
 var UseImageFiles = true;//Use image files with "arrows" and "close" button
 var imageFilesPath = "images/date_time_picker/";
 //Configurable parameters end

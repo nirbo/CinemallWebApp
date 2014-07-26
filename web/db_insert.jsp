@@ -5,6 +5,16 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <% request.setCharacterEncoding("UTF-8"); %>
 <% response.setCharacterEncoding("UTF-8"); %>
+
+<c:set var="title" value="${param.title}"/>
+<c:set var="content" value="${param.content}"/>
+<c:set var="start_date" value="${param.start_date}"/>
+<c:set var="end_date" value="${param.end_date}"/>
+
+<sql:update dataSource="jdbc/cinemall" var="inputParams">   
+    INSERT INTO splash_messages (title,content,published_date,start_date,end_date,active) VALUES('${title}','${content}',NOW(),'${start_date}','${end_date}',"NO");
+</sql:update>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,26 +23,13 @@
     </head>
     
     <body>
-        <sql:setDataSource var="db" driver="com.mysql.jdbc.Driver"
-            url="jdbc:mysql://localhost/cinemall?useUnicode=true&characterEncoding=UTF-8"
-            user="root"  
-            password=""/>
-        
-        <sql:update dataSource="${db}" var="inputParams">
-            <c:set var="title" value="${param.title}"/>
-            <c:set var="content" value="${param.content}"/>
-            <c:set var="start_date" value="${param.start_date}"/>
-            <c:set var="end_date" value="${param.end_date}"/>
-
-            INSERT INTO splash_messages (title,content,published_date,start_date,end_date,active) VALUES('${title}','${content}',NOW(),'${start_date}','${end_date}',"NO");
-        </sql:update>
-            The following message has been added to the splash messages database:
-            <br><br>
-            Title: ${param.title}<br>
-            Content: ${param.content}<br>
-            Start Date: ${param.start_date}<br>
-            End Date: ${param.end_date}
-            <br><br><br>
-            <a href="manage_messages.jsp">Click here to return to the messages list</a>
+        The following message has been added to the splash messages database:
+        <br><br>
+        Title: ${param.title}<br>
+        Content: ${param.content}<br>
+        Start Date: ${param.start_date}<br>
+        End Date: ${param.end_date}
+        <br><br><br>
+        <a href="manage_messages.jsp">Click here to return to the messages list</a>
     </body>
 </html>

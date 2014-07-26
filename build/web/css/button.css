@@ -18,6 +18,7 @@
   border: solid #000000 2px;
   text-decoration: none;
    }
+   
 .button:hover {
    background: #3cb0fd;
   background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
@@ -27,6 +28,7 @@
   background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
   text-decoration: none;
    }
+   
 .button:active {
    border-top-color: #1b435e;
    background: #1b435e;

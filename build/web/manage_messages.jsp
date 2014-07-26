@@ -5,6 +5,11 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <% request.setCharacterEncoding("UTF-8"); %>
 <% response.setCharacterEncoding("UTF-8"); %>
+
+<sql:query dataSource="jdbc/cinemall" var="result">
+    SELECT * FROM splash_messages;
+</sql:query>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,49 +18,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <link rel="stylesheet" type="text/css" href="css/button.css">
-        
-        <script type="text/javascript">
-            function deleteFromDB(row_id) {
-                var form=document.messages;
-                var idToDelete=row_id;
-                form.method="post";
-                form.action='db_delete.jsp?id='+idToDelete;
-                form.submit();
-            }
-        </script>
-        
-        <script type="text/javascript">
-            function changeActiveState(row_id, state) {
-                var form=document.messages;
-                var id=row_id;
-                var newState=state;
-                form.method="post";
-                form.action='active_state_change.jsp?id='+id+'&newState='+newState;
-                form.submit();
-            }
-        </script>
-        
-        <script type="text/javascript">
-            function editMessage(row_id) {
-                var form=document.messages;
-                var id=row_id;
-                form.method="post";
-                form.action='edit_message.jsp?id='+id;
-                form.submit();
-            }
-        </script>
+        <script type="text/javascript" src="js/functions.js"></script>
     </head>
     
-    <body>
-        <sql:setDataSource var="db" driver="com.mysql.jdbc.Driver"
-            url="jdbc:mysql://localhost/cinemall?useUnicode=true&characterEncoding=UTF-8"
-            user="root"  
-            password=""/>
-        
-        <sql:query dataSource="${db}" var="result">
-            SELECT * FROM splash_messages;
-        </sql:query>
-            
+    <body>    
     <center><button id="manage_messages_page" type="button" class="button" onClick="window.location = 'index.jsp'">Return to Homepage</center></button>
             <br><br><br>
             <form method="post" name="messages">
