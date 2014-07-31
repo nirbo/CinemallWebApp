@@ -1,0 +1,151 @@
+#######################################################
+#                                                     #
+# Cinemall Splash Messages Management - Documentation #
+#                                                     #
+#######################################################
+
+Preface:
+This document provides an overview and explanations about the web-application 
+and its pre-requisites.
+
+- This web-application is JSP-based and is designed to work with a MySQL v5.x DB
+  Using the JDBC MySQL Connector library, which is included in the "libs" directory
+
+- The web-application was developed upon Oracle JDK 1.7 hence that is the minimal
+  Java version to use in your server.
+
+- This document assumes you have at least a basic understanding of HTML, 
+  Java programming, JavaScript, JSON, MySQL databases and GlassFish web server.
+
+
+
+Pre-requisites, in the following order:
+
+    1. MySQL v5.x installed with the following schema:
+
+        - DB: 
+            CREATE DATABASE cinemall DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+        - Table:
+            CREATE TABLE splash_messages (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                 title VARCHAR(512) COLLATE utf8_general_ci,
+                 content VARCHAR(1024) COLLATE utf8_general_ci, 
+                 published_date DATETIME,
+                 start_date DATETIME, 
+                 end_date DATETIME,
+                 active VARCHAR(3)) ENGINE=InnoDB DEFAULT CHARSET utf8;
+
+        - Sample INSERT query:
+            INSERT INTO splash_messages (title,content,published_date,start_date,end_date,active) 
+                VALUES("Title","Content",NOW(),"2014-08-01 08:00:00","2015-07-01 08:00:00","NO");
+
+
+2. GlassFish server v4.x installed, with the following configured:
+    
+    - A JDBC Resource
+    - A JDBC Connection Pool
+
+    You'll find instructions on how to configure the JDBC resource and connection pool
+    In the following URL:
+    http://computingat40s.wordpress.com/how-to-setup-a-jdbc-connection-in-glassfish/
+
+    ****** NOTE: The relevant information begins at step number 5 under the "Setting up a JDBC connection in Glassfish" section. ******
+    The details you need to supply for the fields in step number 6 are as follows:
+
+    - Pool Name: cinemallPool
+    - Resource Type: javax.sql.ConnectionPoolDataSource
+    - Database Driver Vendor: MySQL
+    - Initial and Minimum Pool Size: 0
+    - Maximum Pool Size: 200
+    
+    If the "Additional Properties" section in GlassFish configuration contains more than
+    Just "URL", "User", and "Password" - mark and delete everything else, leave only
+    These 3 fields.
+    Their values are as follows:
+
+    - URL: jdbc:mysql://DB-Server-Address:3306/cinemall?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8
+    - User: The DB username you've created with the appropriate permissions
+    - Password: The DB user's password.
+   
+    ****** BE SURE TO USE THIS PRECISE URL, OTHERWISE HEBREW AND/OR UTF-8 CHARACTERS WON'T BE INSERTED CORRECTLY INTO THE DB ******
+
+
+########################################################################################################
+
+Web-application code structure:
+
+    There are a few things to know about the project's code, they are described as follows:
+    
+        1. There are JavaScript functions called throughout the project, they are contained
+           Within the JS functions file in the "js" directory, named "functions.js".
+           The date-picker is also JavaScript-based, it will also be in the same directory and is named "datetimepicker_css.js".
+
+        2. The project uses two external JAR libraries:
+            - The JDBC Connector library
+            - The JSON JSTL tag library
+           
+            Both JARs can be found under the project's root, inside the "libs" directory.
+            They have already been included in the project's properties as external JARs.
+
+        3. The project makes use of JSTL (JSP Standard Tag Libraries), which is an extension of JSP
+           Into the form of tags which are declared at the top of each JSP page that uses them in the following manner:
+
+           <%@ page import="java.io.*,java.util.*,java.sql.*"%>
+           <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
+           <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+           <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+
+           The "prefix" value is how the specific taglib will be called in the code.
+           Here are a few samples from the project's code:
+
+           <c:set var="row_id" value="${param.id}"/>
+
+           The above example makes use of the Java Core library, namely "c", in order to assign
+           The value of the "id" property from within the "param" object into the variable which has
+           Been assigned the name "row_id".
+
+
+           Another example, for a SQL query using the Connection Pool you've created in Pre-requisites section number 2 of this document:
+           
+           <sql:query dataSource="jdbc/cinemall" var="result">
+                SELECT * FROM splash_messages;
+           </sql:query>
+
+           The above example makes use of the "sql" taglib in order to perform a query in a DB
+           That has been assigned the dataSource name "jdbc/cinemall" in the GlassFish server JDBC resource and connection pool configuration.
+           The query is performed and its result-set is returned into the object named "result", after which can be iterated over
+           Using a ForEach loop tag (Core library) and printed out dynamically into an HTML table using the "out" method (Core library):
+
+           <c:forEach var="row" items="${result.rows}">
+                <tr>
+                    <td><center><c:out value="${row.title}"/></center></td>
+                    <td><center><c:out value="${row.content}"/></center></td>
+                    <td><center><c:out value="${row.published_date}"/></center></td>
+                    <td><center><c:out value="${row.active}"/></center></td>
+                    <td><center><c:out value="${row.start_date}"/></center></td>
+                    <td><center><c:out value="${row.end_date}"/></center></td>
+                    <td><center>
+                        <img src="images/activate-icon.png" id="${row.id}" title="Activate Message" style="cursor: pointer;" onClick="changeActiveState(this.id, 'YES')"> &nbsp;&nbsp;&nbsp;
+                        <img src="images/deactivate-icon.png" id="${row.id}" title="Deactivate Message" style="cursor: pointer;" onClick="changeActiveState(this.id, 'NO')"> &nbsp;&nbsp;&nbsp;
+                        <img src="images/edit-icon.png" id="${row.id}" title="Edit Message" style="cursor: pointer;" onClick="editMessage(this.id)"> &nbsp;&nbsp;&nbsp;
+                        <img src="images/delete-icon.png" id="${row.id}" title="Delete Message" style="cursor: pointer;" onClick="deleteFromDB(this.id)">
+                    </center></td>
+                </tr>
+            </c:forEach>
+
+        4. The client_api.jsp page uses the JSTL JSON taglib (external JAR) and provides a fast, clean and simple way
+           Of creating and formatting JSON objects.
+           In that page there is one additional taglib declaration which refers the tag named "json" at the external JAR library:
+
+           <%@ taglib uri="http://www.atg.com/taglibs/json" prefix="json"%>
+
+
+            
+    JSTL can simplify many more JSP-based actions and tasks.
+    You can learn more about JSTL in the following URLs:
+    http://beginnersbook.com/jsp-jstl-tutorial-jstl-functions-and-core-tags/
+    http://docs.oracle.com/javaee/5/jstl/1.1/docs/tlddocs/
+    http://www.apekshit.com/JSTL-Tutorial-for-beginners-with-Example/c/26
+
+
+########################################################################################################
