@@ -8,18 +8,9 @@
 <% response.setCharacterEncoding("UTF-8"); %>
 
 <sql:query dataSource="jdbc/cinemall" var="results">
-    SELECT * FROM splash_messages;
+    SELECT * FROM splash_messages WHERE start_date <= NOW() AND end_date > NOW() AND active='YES';
 </sql:query>
-            
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Mobile Client REST API</title>
-    </head>
 
-    <body>
-        
 <json:object prettyPrint="true">
     <json:array name="All_Messages" var="row" items="${results.rows}" prettyPrint="true">
         <json:object prettyPrint="true">
@@ -33,6 +24,3 @@
         </json:object>
     </json:array>
 </json:object>
-
-    </body>
-</html>

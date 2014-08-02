@@ -6,6 +6,8 @@
 <% request.setCharacterEncoding("UTF-8"); %>
 <% response.setCharacterEncoding("UTF-8"); %>
 
+<link rel="stylesheet" type="text/css" href="css/button.css">
+
 <c:set var="title" value="${param.title}"/>
 <c:set var="content" value="${param.content}"/>
 <c:set var="start_date" value="${param.start_date}"/>
@@ -30,6 +32,8 @@
         Start Date: ${param.start_date}<br>
         End Date: ${param.end_date}
         <br><br><br>
-        <a href="manage_messages.jsp">Click here to return to the messages list</a>
+        <button id="add_another_message" type="button" class="button" onClick="window.location = 'add_message.jsp'">Add another Message</button>
+        <br><br>
+        <button id="return_to_list" type="button" class="button" onClick="window.location = 'manage_messages.jsp'">Return to messages list</button>
     </body>
 </html>
